@@ -4,6 +4,7 @@ import math
 import numpy as np
 from scipy.optimize import curve_fit
 from scipy.signal import savgol_filter
+from sklearn.metrics import r2_score
 
 def plot_processed(title,conc,analyte,position):
     b = pd.read_csv('b.csv')
@@ -304,3 +305,18 @@ def kinetic_analysis(df,type,conc,analyte,lip_type,lip_conc,position):
     axs[3,1].set(xlabel='PDBu []', ylabel='K observed')
 
     return well_kinetics
+
+def plot_kobs(kobs,conc):
+    
+    kobs_array = np.array(kobs)
+    conc_array = np.array(conc)
+
+    a,b = poyfit(kobs_array,conc_array,1)
+    kobs_expected = []
+    for i in conc:
+        kobs_expected.append(a*i + b)
+    kobs_expected_array = np.array(kobs_expected)
+    rsquared = r2_score(kobs,kobs_expected)
+    print(rsquared)
+    plt.plot(conc_array,a*kobs_array + b)
+    plt.plot(conc_array,kobs_array)

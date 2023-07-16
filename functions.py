@@ -311,7 +311,7 @@ def plot_kobs(kobs,conc):
     kobs_array = np.array(kobs)
     conc_array = np.array(conc)
 
-    a,b = np.poyfit(kobs_array,conc_array,1)
+    a,b = np.polyfit(kobs_array,conc_array,1)
     kobs_expected = []
     for i in conc:
         kobs_expected.append(a*i + b)

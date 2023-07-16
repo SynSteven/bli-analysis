@@ -5,7 +5,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 from scipy.signal import savgol_filter
 
-def plot_processed():
+def plot_processed(title,conc,analyte,position):
     b = pd.read_csv('b.csv')
     c = pd.read_csv('c.csv')
     d = pd.read_csv('d.csv')
@@ -22,32 +22,20 @@ def plot_processed():
     g['time'] = g['Time1'] - g['Time1'][0]
     h['time'] = h['Time1'] - h['Time1'][0]
     
-    global binding,analyte,liposome_conc,liposome_type,b_conc,c_conc,d_conc,e_conc,f_conc,g_conc,h_conc
-    binding = 'Real Binding'
-    analyte = 'PDBu'
-    liposome_conc = 0.5
-    liposome_type = 'LUV'
-    b_conc = 0
-    c_conc = 25
-    d_conc = 50
-    e_conc = 100
-    f_conc = 200
-    g_conc = 400
-    h_conc = 800
 
 
     plt.rcParams['figure.figsize'] = [12, 12]
-    plt.title('{}mM POPC {}s, {}'.format(liposome_conc,liposome_type,binding),fontdict={'fontsize':16})
+    plt.title(title,fontdict={'fontsize':16})
     plt.xlabel('Time (s)',fontsize=14)
     plt.ylabel('Wavelength Shift (nm)',fontsize=14)
-    plt.plot(b['time'],b['Data1'],'#88CCEE',label = '{} nM {}'.format(b_conc,analyte))
-    plt.plot(c['time'],c['Data1'],'#44AA99',label = '{} nM {}'.format(c_conc,analyte))
-    plt.plot(d['time'],d['Data1'],'#117733',label = '{} nM {}'.format(d_conc,analyte))
-    plt.plot(e['time'],e['Data1'],'#999933',label = '{} nM {}'.format(e_conc,analyte))
-    plt.plot(f['time'],f['Data1'],'#DDCC77',label = '{} nM {}'.format(f_conc,analyte))
-    plt.plot(g['time'],g['Data1'],'#CC6677',label = '{} nM {}'.format(g_conc,analyte))
-    plt.plot(h['time'],h['Data1'],'#882256',label = '{} nM {}'.format(h_conc,analyte))
-    plt.legend(loc='upper right',prop={'size':15})
+    plt.plot(b['time'],b['Data1'],'#88CCEE',label = '{} nM {}'.format(conc[0],analyte))
+    plt.plot(c['time'],c['Data1'],'#44AA99',label = '{} nM {}'.format(conc[1],analyte))
+    plt.plot(d['time'],d['Data1'],'#117733',label = '{} nM {}'.format(conc[2],analyte))
+    plt.plot(e['time'],e['Data1'],'#999933',label = '{} nM {}'.format(conc[3],analyte))
+    plt.plot(f['time'],f['Data1'],'#DDCC77',label = '{} nM {}'.format(conc[4],analyte))
+    plt.plot(g['time'],g['Data1'],'#CC6677',label = '{} nM {}'.format(conc[5],analyte))
+    plt.plot(h['time'],h['Data1'],'#882256',label = '{} nM {}'.format(conc[6],analyte))
+    plt.legend(loc=position,prop={'size':15})
     plt.show()
 
 
@@ -171,9 +159,9 @@ def flip_df(df):
     return df_flip
 
 
-def plot_df(df,conc,analyte,lip_type,lip_conc,phase,position):
+def plot_df(df,title,conc,analyte,position):
     plt.rcParams['figure.figsize'] = [14, 12]
-    plt.title('{}mM POPC {}s, {}'.format(lip_conc,lip_type,phase),fontdict={'fontsize':16})
+    plt.title(title,fontdict={'fontsize':16})
     plt.xlabel('Time (s)',fontsize=14)
     plt.ylabel('Wavelength Shift (nm)',fontsize=14)
     plt.plot(df['time'],df['b_data'],'#88CCEE',label = '{} nM {}'.format(conc[0],analyte),marker='o')
@@ -200,10 +188,10 @@ def subtract_first(df):
     return df_sub
 
 
-def plot_raw(lip_conc,lip_type,lip_conc_unit,binding,test,conc,analyte):
+def plot_raw(title,conc,analyte):
     data = pd.read_csv('RawData.csv')
     plt.rcParams['figure.figsize'] = [10, 8]
-    plt.title('{}{} POPC {}s, {}, {}'.format(lip_conc,lip_conc_unit,lip_type,binding,test),fontdict={'fontsize':16})
+    plt.title(title,fontdict={'fontsize':16})
     plt.xlabel('Time (s)',fontsize=14)
     plt.ylabel('Wavelength Shift (nm)',fontsize=14)
     end = 7500
@@ -311,7 +299,7 @@ def kinetic_analysis(df,type,conc,analyte,lip_type,lip_conc,position):
     axs[3,0].legend(prop={'size':15},loc=position)
     axs[3,0].set(xlabel='Time (s)', ylabel='Wavelength Shift (nm)')
 
-    axs[3, 1].set_title('{}mM POPC LUVs,K observed Plot '.format(lip_conc))
+    axs[3, 1].set_title('{}mM POPC {}s,K observed Plot '.format(lip_conc,lip_type))
     axs[3,1].plot(conc,well_kinetics,'o')
     axs[3,1].set(xlabel='PDBu []', ylabel='K observed')
 

@@ -306,17 +306,23 @@ def kinetic_analysis(df,type,conc,analyte,lip_type,lip_conc,position):
 
     return well_kinetics
 
-def plot_kobs(kobs,conc):
+def plot_kobs(kobs,conc,title):
     
     kobs_array = np.array(kobs)
     conc_array = np.array(conc)
-
-    a,b = np.polyfit(kobs_array,conc_array,1)
+    
+    a,b = np.polyfit(conc_array,kobs_array,1)
     kobs_expected = []
     for i in conc:
         kobs_expected.append(a*i + b)
     kobs_expected_array = np.array(kobs_expected)
     rsquared = r2_score(kobs,kobs_expected)
     print(rsquared)
-    plt.plot(conc_array,a*kobs_array + b)
-    plt.plot(conc_array,kobs_array)
+    print(a)
+    print(b)
+    plt.rcParams['figure.figsize'] = [14, 12]
+    plt.title(title,fontdict={'fontsize':16})
+    plt.xlabel('Conentration (nM)',fontsize=14)
+    plt.ylabel('K(obs)',fontsize=14)
+    plt.plot(conc_array,a*conc_array + b,'darkgray',linestyle='--',linewidth=3,label='Fitted Data')
+    plt.plot(conc_array,kobs_array,'co',markersize=10,label='Kobs Data')

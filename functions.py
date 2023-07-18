@@ -40,7 +40,7 @@ def plot_processed(title,conc,analyte,position):
     plt.show()
 
 
-def sep_assoc_dissoc():
+ticsdef sep_assoc_dissoc():
     b = pd.read_csv('b.csv')
     c = pd.read_csv('c.csv')
     d = pd.read_csv('d.csv')
@@ -207,7 +207,7 @@ def plot_raw(title,conc,analyte,end):
 
     plt.legend(loc='upper left',prop={'size':10})
     
-def kinetic_analysis(df,type,conc,analyte,lip_type,lip_conc,position):
+def kinetic_analysis(df,type,conc,analyte,lip_type,lip_conc,position,kobs):
     if type == 'association':
         def Gauss(x, A, B):
             y = A*(1-np.exp(-B*x/100))
@@ -298,11 +298,14 @@ def kinetic_analysis(df,type,conc,analyte,lip_type,lip_conc,position):
     axs[3,0].plot(df['time'], fit_y_h,'black',label='fit, K = {}'.format((fit_kobs_h/100).round(5)))
     axs[3,0].legend(prop={'size':15},loc=position)
     axs[3,0].set(xlabel='Time (s)', ylabel='Wavelength Shift (nm)')
+    if kobs == 'true'
+        axs[3, 1].set_title('{}mM POPC {}s,K observed Plot '.format(lip_conc,lip_type))
+        axs[3,1].plot(conc,well_kinetics,'o')
+        axs[3,1].set(xlabel='PDBu []', ylabel='K observed')
+    else:
+        print('no analysis')
 
-    axs[3, 1].set_title('{}mM POPC {}s,K observed Plot '.format(lip_conc,lip_type))
-    axs[3,1].plot(conc,well_kinetics,'o')
-    axs[3,1].set(xlabel='PDBu []', ylabel='K observed')
-
+    
     return well_kinetics
 
 def plot_kobs(kobs,conc,title):

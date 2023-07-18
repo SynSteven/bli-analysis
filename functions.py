@@ -40,7 +40,7 @@ def plot_processed(title,conc,analyte,position):
     plt.show()
 
 
-ticsdef sep_assoc_dissoc():
+def sep_assoc_dissoc():
     b = pd.read_csv('b.csv')
     c = pd.read_csv('c.csv')
     d = pd.read_csv('d.csv')

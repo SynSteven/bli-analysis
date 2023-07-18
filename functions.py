@@ -298,7 +298,7 @@ def kinetic_analysis(df,type,conc,analyte,lip_type,lip_conc,position,kobs):
     axs[3,0].plot(df['time'], fit_y_h,'black',label='fit, K = {}'.format((fit_kobs_h/100).round(5)))
     axs[3,0].legend(prop={'size':15},loc=position)
     axs[3,0].set(xlabel='Time (s)', ylabel='Wavelength Shift (nm)')
-    if kobs == 'true'
+    if kobs == 'true':
         axs[3, 1].set_title('{}mM POPC {}s,K observed Plot '.format(lip_conc,lip_type))
         axs[3,1].plot(conc,well_kinetics,'o')
         axs[3,1].set(xlabel='PDBu []', ylabel='K observed')

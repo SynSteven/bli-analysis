@@ -189,13 +189,12 @@ def subtract_first(df):
     return df_sub
 
 
-def plot_raw(title,conc,analyte):
+def plot_raw(title,conc,analyte,end):
     data = pd.read_csv('RawData.csv')
     plt.rcParams['figure.figsize'] = [10, 8]
     plt.title(title,fontdict={'fontsize':16})
     plt.xlabel('Time (s)',fontsize=14)
     plt.ylabel('Wavelength Shift (nm)',fontsize=14)
-    end = 7500
 
     plt.plot(data['A_time'][0:end:],data['A_signal'][0:end:],'#332288',label='Reference Buffer')
     plt.plot(data['B_time'][0:end:],data['B_signal'][0:end:],'#88CCEE',label = '{}nM {}'.format(conc[0],analyte))

@@ -3,17 +3,23 @@ import matplotlib.pyplot as plt
 import math
 import numpy as np
 from scipy.optimize import curve_fit
-from scipy.signal import savgol_filter
 from sklearn.metrics import r2_score
+message = '''
+Here is a list of the functions in this file and how to use them.
+First, after you import this file, in the next cell, define the following things
+concentration range as integers
+analyte as a string
+file names as strings
 
-def plot_processed(title,conc,analyte,position):
-    b = pd.read_csv('b.csv')
-    c = pd.read_csv('c.csv')
-    d = pd.read_csv('d.csv')
-    e = pd.read_csv('e.csv')
-    f = pd.read_csv('f.csv')
-    g = pd.read_csv('g.csv')
-    h = pd.read_csv('h.csv')  
+'''
+def plot_processed(title,conc,analyte,position,file):
+    b = pd.read_csv(file[0])
+    c = pd.read_csv(file[1])
+    d = pd.read_csv(file[2])
+    e = pd.read_csv(file[3])
+    f = pd.read_csv(file[4])
+    g = pd.read_csv(file[5])
+    h = pd.read_csv(file[6])  
     
     b['time'] = b['Time1'] - b['Time1'][0]
     c['time'] = c['Time1'] - c['Time1'][0]
@@ -40,14 +46,14 @@ def plot_processed(title,conc,analyte,position):
     plt.show()
 
 
-def sep_assoc_dissoc():
-    b = pd.read_csv('b.csv')
-    c = pd.read_csv('c.csv')
-    d = pd.read_csv('d.csv')
-    e = pd.read_csv('e.csv')
-    f = pd.read_csv('f.csv')
-    g = pd.read_csv('g.csv')
-    h = pd.read_csv('h.csv')  
+def sep_assoc_dissoc(file):
+    b = pd.read_csv(file[0])
+    c = pd.read_csv(file[1])
+    d = pd.read_csv(file[2])
+    e = pd.read_csv(file[3])
+    f = pd.read_csv(file[4])
+    g = pd.read_csv(file[5])
+    h = pd.read_csv(file[6])  
     
     b['time'] = b['Time1'] - b['Time1'][0]
     
@@ -131,10 +137,21 @@ def sep_assoc_dissoc():
     for i in range(2499):
         h_dis_data.append(h['Data1'][z])
         z+=1
-    return (
-        assoc_time,b_assoc_data,c_assoc_data,d_assoc_data,e_assoc_data,f_assoc_data,g_assoc_data,h_assoc_data,
-        dis_time,b_dis_data,c_dis_data,d_dis_data,e_dis_data,f_dis_data,g_dis_data,h_dis_data
-            )
+    def make_df(t,b,c,d,e,f,g,h):
+        df = pd.DataFrame()
+        df['time'] = t
+        df['b_data'] = b
+        df['c_data'] = c
+        df['d_data'] = d
+        df['e_data'] = e
+        df['f_data'] = f
+        df['g_data'] = g
+        df['h_data'] = h
+        return df
+    df_assoc = make_df(assoc_time,b_assoc_data,c_assoc_data,d_assoc_data,e_assoc_data,f_assoc_data,g_assoc_data,h_assoc_data)
+    df_dissoc = make_df(dis_time,b_dis_data,c_dis_data,d_dis_data,e_dis_data,f_dis_data,g_dis_data,h_dis_data)
+    return (df_assoc,df_dissoc)
+    
 def make_df(t,b,c,d,e,f,g,h):
     df = pd.DataFrame()
     df['time'] = t
@@ -319,9 +336,9 @@ def plot_kobs(kobs,conc,title):
         kobs_expected.append(a*i + b)
     kobs_expected_array = np.array(kobs_expected)
     rsquared = r2_score(kobs,kobs_expected)
-    print(rsquared)
-    print(a)
-    print(b)
+    print('R^2: {}'.format(rsquared))
+    print('y = {}*x + {}'.format(round(a,5),round(b,5)
+    
     plt.rcParams['figure.figsize'] = [14, 12]
     plt.title(title,fontdict={'fontsize':16})
     plt.xlabel('Conentration (nM)',fontsize=14)

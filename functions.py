@@ -12,6 +12,7 @@ analyte as a string
 file names as strings
 
 '''
+print(message)
 def plot_processed(title,conc,analyte,position,file):
     b = pd.read_csv(file[0])
     c = pd.read_csv(file[1])

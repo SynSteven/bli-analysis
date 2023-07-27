@@ -338,7 +338,7 @@ def plot_kobs(kobs,conc,title):
     kobs_expected_array = np.array(kobs_expected)
     rsquared = r2_score(kobs,kobs_expected)
     print('R^2: {}'.format(rsquared))
-    print('y = {}*x + {}'.format(round(a,5),round(b,5)
+    print('y = {}*x + {}'.format(round(a,5),round(b,5)))
     
     plt.rcParams['figure.figsize'] = [14, 12]
     plt.title(title,fontdict={'fontsize':16})

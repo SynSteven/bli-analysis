@@ -337,12 +337,19 @@ def plot_kobs(kobs,conc,title):
         kobs_expected.append(a*i + b)
     kobs_expected_array = np.array(kobs_expected)
     rsquared = r2_score(kobs,kobs_expected)
-    print('R^2: {}'.format(rsquared))
-    print('y = {}*x + {}'.format(round(a,5),round(b,5)))
-    
+    print(rsquared)
+    print(a)
+    print(b)
+    print('KD = {}'.format(round(b/a,5)))
     plt.rcParams['figure.figsize'] = [14, 12]
+    plt.text(10,.014,'''
+    R^2: {}
+    y = {}*x + {}
+    KD = {}nM
+    '''.format(round(rsquared,5),round(a,5),round(b,5),round(b/a,5)),fontsize=16)
     plt.title(title,fontdict={'fontsize':16})
     plt.xlabel('Conentration (nM)',fontsize=14)
     plt.ylabel('K(obs)',fontsize=14)
+    plt.errorbar(conc,kobs,yerr=yerror,xerr=None,fmt=' ',capsize=4)
     plt.plot(conc_array,a*conc_array + b,'darkgray',linestyle='--',linewidth=3,label='Fitted Data')
     plt.plot(conc_array,kobs_array,'co',markersize=10,label='Kobs Data')
